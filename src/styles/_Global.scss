@@ -1,0 +1,64 @@
+@use "./Variables" as *;
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+html {
+  font-size: 32px;
+}
+img {
+  user-select: none;
+  font-size: 14px;
+}
+a {
+  text-decoration: none;
+}
+
+::selection {
+  color: #ffffff;
+  background-color: $primaryColor;
+}
+
+// Fonts sizes
+h1 {
+  font-size: $mainHeading;
+}
+h2 {
+  font-size: $subHeading;
+}
+h3 {
+  font-size: $smallHeading;
+}
+.large-paragraph {
+  font-size: $largeParagraph;
+}
+.small-paragraph {
+  font-size: $smallParagraph;
+}
+
+// font colors
+.font-secondary {
+  color: $secondaryColor;
+}
+.font-gray-700 {
+  color: $gray700;
+}
+
+.font-gray-600 {
+  color: $gray600;
+}
+
+.font-gray-300 {
+  color: $gray300;
+}
+.font-sky {
+  color: $skyBlueColor;
+}
+
+.font-danger {
+  color: $dangerColor;
+}
+.font-success {
+  color: $successColor;
+}

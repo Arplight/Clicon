@@ -1,0 +1,16 @@
+// Template colors
+$primaryColor: #fa8232;
+$secondaryColor: #1b6392;
+$skyBlueColor: #2da5f3;
+$gray700: #475156;
+$gray600: #5f6c72;
+$gray300: #adb7bc;
+$successColor: #2db224;
+$dangerColor: #ee5858;
+
+// font sizes
+$mainHeading: clamp(1rem, 10vw, 1rem); //32px
+$subHeading: clamp(0.75rem, 10vw, 0.75rem); //24px
+$smallHeading: clamp(0.62rem, 10vw, 0.62rem); //20px
+$largeParagraph: clamp(0.5rem, 10vw, 0.5rem); //16px
+$smallParagraph: clamp(0.44rem, 10vw, 0.44rem); //14px
