@@ -1,0 +1,24 @@
+@use "./Variables" as *;
+// Form
+.active-auth-in {
+  &::after {
+    transform: translateX(0%);
+  }
+  #in-active {
+    color: #000000;
+  }
+}
+.active-auth-up {
+  color: #000000;
+  &::after {
+    transform: translateX(100%);
+  }
+  #up-active {
+    color: #000000;
+  }
+}
+// Buttons
+.button-disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed;
+}

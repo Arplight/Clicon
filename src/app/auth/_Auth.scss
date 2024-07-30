@@ -1,0 +1,17 @@
+@use "../../styles/Variables" as *;
+.auth-tab {
+  position: relative;
+  &::after {
+    transition: all 0.5s ease;
+    position: absolute;
+    content: "";
+    width: 50%;
+    height: 3px;
+    border-radius: 5px;
+    background-color: $primaryColor;
+    inset: auto auto 0px auto;
+  }
+  button {
+    transition: all 0.5s ease;
+  }
+}

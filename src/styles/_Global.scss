@@ -7,6 +7,9 @@
 html {
   font-size: 32px;
 }
+body {
+  background-color: whitesmoke;
+}
 img {
   user-select: none;
   font-size: 14px;
@@ -21,13 +24,17 @@ a {
 }
 
 // Fonts sizes
-h1 {
+h1,
+.main-heading {
   font-size: $mainHeading;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.288);
 }
-h2 {
+h2,
+.sub-heading {
   font-size: $subHeading;
 }
-h3 {
+h3,
+.small-heading {
   font-size: $smallHeading;
 }
 .large-paragraph {
@@ -61,4 +68,19 @@ h3 {
 }
 .font-success {
   color: $successColor;
+}
+
+// swiper
+.swiper-button-prev,
+.swiper-button-next {
+  background-color: $primaryColor;
+  border-radius: 28px;
+  z-index: 100;
+  width: 28px;
+  height: 28px;
+  &::after {
+    color: #ffffff;
+    font-size: 14px !important;
+    font-weight: 700;
+  }
 }

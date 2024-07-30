@@ -1,5 +1,7 @@
+import Wrapper from "../../layout/wrapper/layout";
+
 const ProductDetails = ({ params }: { params: { slug: string } }) => {
-  return <>productDetails</>;
+  return <Wrapper>productDetails</Wrapper>;
 };
 
 export default ProductDetails;

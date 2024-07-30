@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
-import Wrapper from "./layout/wrapper/layout";
 import Navbar from "./layout/navbar/navbar";
 import Footer from "./layout/footer/footer";
 import "../styles/Main.scss";
@@ -25,10 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={publicSans.className}>
-        {/* <Navbar />
-        <Wrapper>{children}</Wrapper>
-        <Footer /> */}
-        <Template />
+        <Navbar />
+        {children}
+        <Footer />
+        {/* <Template /> */}
       </body>
     </html>
   );

@@ -7,3 +7,6 @@
 @use "./Global";
 @use "./Variables";
 @use "./EventClasses";
+
+// Components
+@use "../app/auth/Auth";
