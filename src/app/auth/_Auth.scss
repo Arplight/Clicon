@@ -2,7 +2,7 @@
 .auth-tab {
   position: relative;
   &::after {
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     position: absolute;
     content: "";
     width: 50%;
@@ -12,6 +12,6 @@
     inset: auto auto 0px auto;
   }
   button {
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
   }
 }

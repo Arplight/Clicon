@@ -6,7 +6,7 @@ import SignIn from "./components/signIn";
 import SignUp from "./components/signUp";
 
 const Auth = () => {
-  const [activeAuth, setActiveAuth] = useState("signIn");
+  const [activeAuth, setActiveAuth] = useState<string>("signIn");
   return (
     <AuthWrapper>
       <section className="shadow-lg  w-full sm:w-[400px] border border-[#E4E7E9] rounded-[3px] bg-[#ffffff]">
