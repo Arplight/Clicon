@@ -21,9 +21,9 @@ interface ICarousel {
 }
 const Carousel: FC<ICarousel> = ({ cardsData, carouselTitle }) => {
   const images: string[] = [
-    "https://i.imgur.com/9LFjwpI.jpeg",
-    "https://i.imgur.com/vzrTgUR.jpeg",
-    "https://i.imgur.com/p5NdI6n.jpeg",
+    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png",
+    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/2.png",
+    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/3.png",
   ];
   return (
     <MainSection withStyle="flex justify-center">

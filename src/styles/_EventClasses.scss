@@ -22,4 +22,12 @@
   opacity: 0.5 !important;
   cursor: not-allowed;
 }
-
+// search bar events
+.search-visible {
+  opacity: 1 !important;
+  transform: translateY(0%) !important;
+}
+.search-hidden {
+  opacity: 0;
+  transform: translateY(-100%);
+}

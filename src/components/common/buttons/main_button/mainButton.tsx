@@ -3,6 +3,7 @@ import Link from "next/link";
 
 interface IMainButton {
   buttonLabel: string;
+  buttonFontSize?: string;
   buttonRole?: "submit" | "reset" | "button";
   isHollow: boolean;
   isLarge: boolean;
@@ -16,6 +17,7 @@ interface IMainButton {
 
 const MainButton: FC<IMainButton> = ({
   buttonLabel,
+  buttonFontSize = "large-paragraph",
   buttonRole = "button",
   isHollow,
   isLarge,
@@ -26,7 +28,7 @@ const MainButton: FC<IMainButton> = ({
   withStyle = "",
   onClick,
 }) => {
-  const buttonStyle: string = `font-bold rounded-[3px] py-1.5 px-2.5 large-paragraph uppercase duration-300 hover:opacity-70  ${
+  const buttonStyle: string = `font-bold rounded-[3px] py-1.5 px-2.5 uppercase duration-300 hover:opacity-70 ${buttonFontSize} ${
     isLarge ? "grow" : ""
   } ${
     isHollow
