@@ -2,7 +2,7 @@ import { FC } from "react";
 
 interface IAuthTab {
   activeAuth: string;
-  setActiveAuth: (currentAuth: string) => void;
+  setActiveAuth: (activeAuth: string) => void;
 }
 const AuthTab: FC<IAuthTab> = ({ activeAuth, setActiveAuth }) => {
   return (

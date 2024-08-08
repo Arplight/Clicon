@@ -11,10 +11,19 @@ import NavMenu from "@/src/components/common/menus/nav_menu/navMenu";
 import MainButton from "@/src/components/common/buttons/main_button/mainButton";
 import { CiSearch } from "react-icons/ci";
 import SearchBar from "@/src/components/common/search_bar/searchBar";
-
+import { useDispatch, useSelector } from "react-redux";
+import { IoLogOutOutline } from "react-icons/io5";
+import { RootState } from "@/src/lib/redux/store";
+import { logOut } from "@/src/lib/redux/slices/AuthSlice";
 const Navbar = () => {
   // state
   const [currentMenu, setCurrentMenu] = useState<null | string>(null);
+  const isAuthorized = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
+  // dispatch
+  const dispatch = useDispatch<any>();
   // interfaces
   interface INavIcons {
     icon: ReactNode;
@@ -86,8 +95,13 @@ const Navbar = () => {
       ),
     },
     {
-      icon: <CgProfile />,
-      href: "/auth",
+      icon: isAuthorized ? <IoLogOutOutline /> : <CgProfile />,
+      href: isAuthorized ? undefined : "/auth",
+      onClick: isAuthorized
+        ? () => {
+            dispatch(logOut());
+          }
+        : undefined,
       label: "Profile",
       isResponsive: false,
     },

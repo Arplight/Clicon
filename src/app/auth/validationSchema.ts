@@ -6,10 +6,9 @@ const passwordValidation: Yup.StringSchema<string | undefined> = Yup.string()
   .required("Password is required")
   .trim();
 
-const emailValidation: Yup.StringSchema<string | undefined> = Yup.string()
-  .email("Invalid email address")
-  .max(50, "Email must be 50 characters or less")
-  .required("Email is required")
+const usernameValidation: Yup.StringSchema<string | undefined> = Yup.string()
+  .max(30, "username must be 30 characters or less")
+  .required("username is required")
   .trim();
 
 export const signUpSchema: Yup.ObjectSchema<{
@@ -18,11 +17,8 @@ export const signUpSchema: Yup.ObjectSchema<{
   password: string | undefined;
   password_confirmation: string | undefined;
 }> = Yup.object({
-  username: Yup.string()
-    .max(30, "Username must be 30 characters or less")
-    .required("Username is required")
-    .trim(),
-  email: emailValidation,
+  username: usernameValidation,
+  email: Yup.string().email().required("Email is required").trim(),
   password: passwordValidation,
   password_confirmation: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
@@ -31,9 +27,9 @@ export const signUpSchema: Yup.ObjectSchema<{
 });
 
 export const signInSchema: Yup.ObjectSchema<{
-  email: string | undefined;
+  username: string | undefined;
   password: string | undefined;
 }> = Yup.object({
-  email: emailValidation,
+  username: usernameValidation,
   password: passwordValidation,
 });

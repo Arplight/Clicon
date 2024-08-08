@@ -4,6 +4,9 @@ import Navbar from "./layout/navbar/navbar";
 import Footer from "./layout/footer/footer";
 import "../styles/Main.scss";
 import Template from "./Template";
+import StorePovider from "./storePovider";
+import { ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const publicSans = Public_Sans({
   subsets: ["latin"],
@@ -22,13 +25,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={publicSans.className}>
-        <Navbar />
-        {children}
-        <Footer />
-        {/* <Template /> */}
-      </body>
-    </html>
+    <StorePovider>
+      <html lang="en">
+        <body className={publicSans.className}>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Slide}
+          />
+          <Navbar />
+          {children}
+          <Footer />
+          {/* <Template /> */}
+        </body>
+      </html>
+    </StorePovider>
   );
 }

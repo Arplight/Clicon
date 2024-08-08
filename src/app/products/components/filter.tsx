@@ -1,28 +1,27 @@
 "use client";
-
 import { FC, useState } from "react";
-import MultiRangeSlider from "multi-range-slider-react";
+// import MultiRangeSlider from "multi-range-slider-react";
 
 interface IFilter {
   categoriesData: string[];
 }
-interface IPrice {
-  minValue: number;
-  maxValue: number;
-}
+// interface IPrice {
+//   minValue: number;
+//   maxValue: number;
+// }
 const Filter: FC<IFilter> = ({ categoriesData }) => {
   const [currentCategory, setCurrentCategory] = useState<null | string>(null);
-  const [minValue, set_minValue] = useState<number>(25);
-  const [maxValue, set_maxValue] = useState<number>(75);
+  // const [minValue, set_minValue] = useState<number>(25);
+  // const [maxValue, set_maxValue] = useState<number>(75);
 
   // Handlers
   function categoryHandler(category: string): void {
     setCurrentCategory(category);
   }
-  const inputHandler = (values: IPrice) => {
-    set_minValue(values.minValue);
-    set_maxValue(values.maxValue);
-  };
+  // const inputHandler = (values: IPrice) => {
+  //   set_minValue(values.minValue);
+  //   set_maxValue(values.maxValue);
+  // };
 
   return (
     <aside className="w-full sm:w-4/5 m-auto xl:m-0 xl:w-1/6 p-2 bg-[#ffffff] shadow-lg rounded-md h-min">
@@ -54,7 +53,7 @@ const Filter: FC<IFilter> = ({ categoriesData }) => {
             <option key={index}>{category}</option>
           ))}
       </select>
-      <div className="mt-2">
+      {/* <div className="mt-2">
         <h3>Price range</h3>
         <MultiRangeSlider
           min={0}
@@ -79,7 +78,7 @@ const Filter: FC<IFilter> = ({ categoriesData }) => {
             inputHandler({ minValue: e.minValue, maxValue: e.maxValue });
           }}
         />
-      </div>
+      </div> */}
     </aside>
   );
 };

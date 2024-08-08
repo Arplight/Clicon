@@ -3,27 +3,49 @@ import InputField from "@/src/components/common/input_field/inputField";
 import { Form, Formik } from "formik";
 import { FaArrowRight } from "react-icons/fa6";
 import { signInSchema } from "../validationSchema";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { signIn_API } from "@/src/lib/apiStore/apiStore";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 const SignIn = () => {
+  const dispatch = useDispatch<any>();
+  const router = useRouter();
+  // Alert
+  useEffect(() => {
+    alert(
+      "Use the following credentials for testing:  username: emilys , password: emilyspass"
+    );
+  }, []);
   return (
     <div className="p-2">
       <Formik
         initialValues={{
           username: "",
-          email: "",
           password: "",
-          password_confirmation: "",
         }}
         validationSchema={signInSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values: ISignIn, { resetForm }) => {
+          dispatch(signIn_API(values)).then(
+            (response: { payload: { username: string } }) => {
+              if (response.payload.username) {
+                resetForm();
+                toast.success(`Welcome back ${response.payload?.username}`);
+                router.push("/");
+              }
+            }
+          );
+        }}
       >
         {({ isValid, dirty }) => (
           <Form className="flex flex-col gap-1.5">
             <InputField
-              fieldLabel={"E-mail"}
-              fieldName={"email"}
-              fieldPlaceholder={"Please enter your email"}
-              fieldType={"email"}
-              fieldMaxLength={51}
+              fieldLabel={"Username"}
+              fieldName={"username"}
+              fieldPlaceholder={"Please enter your username"}
+              fieldType={"text"}
+              fieldMaxLength={31}
               isRequired={true}
             />
             <InputField
@@ -36,7 +58,7 @@ const SignIn = () => {
             />
             <MainButton
               buttonLabel={"sign in"}
-              buttonRole={"button"}
+              buttonRole={"submit"}
               isHollow={false}
               isLarge={false}
               isLoading={false}

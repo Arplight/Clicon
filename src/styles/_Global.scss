@@ -88,4 +88,26 @@ h3,
   }
 }
 
+// React toast
+.Toastify {
+  font-size: $smallParagraph;
+}
 
+// Pagination
+.pagination {
+  display: flex;
+  gap: 15px;
+  font-size: $largeParagraph;
+  margin: auto;
+  margin-top: 40px;
+
+  .pagination-active {
+    background-color: $primaryColor;
+    color: #ffffff;
+    padding-inline: 5px;
+  }
+  .pagination-disabled {
+    cursor: not-allowed;
+    opacity: 0.382;
+  }
+}

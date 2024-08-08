@@ -3,8 +3,16 @@ import InputField from "@/src/components/common/input_field/inputField";
 import { Form, Formik } from "formik";
 import { FaArrowRight } from "react-icons/fa6";
 import { signUpSchema } from "../validationSchema";
+import { useDispatch } from "react-redux";
+import { signUp_API } from "@/src/lib/apiStore/apiStore";
+import { toast } from "react-toastify";
+import { FC } from "react";
 
-const SignUp = () => {
+interface ISignUpProps {
+  setActiveAuth: (activeAuth: string) => void;
+}
+const SignUp: FC<ISignUpProps> = ({ setActiveAuth }) => {
+  const dispatch = useDispatch<any>();
   return (
     <div className="p-2">
       <Formik
@@ -15,7 +23,15 @@ const SignUp = () => {
           password_confirmation: "",
         }}
         validationSchema={signUpSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values: ISignUp, { resetForm }) => {
+          dispatch(signUp_API(values)).then((response: { payload: object }) => {
+            if (response.payload) {
+              toast.success("User created successfully.");
+              resetForm();
+              setActiveAuth("signIn");
+            }
+          });
+        }}
       >
         {({ isValid, dirty }) => (
           <Form className="flex flex-col gap-1.5">
@@ -53,7 +69,7 @@ const SignUp = () => {
             />
             <MainButton
               buttonLabel={"sign up"}
-              buttonRole={"button"}
+              buttonRole={"submit"}
               isHollow={false}
               isLarge={false}
               isLoading={false}

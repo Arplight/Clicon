@@ -11,7 +11,11 @@ const Auth = () => {
     <AuthWrapper>
       <section className="shadow-lg  w-full sm:w-[400px] border border-[#E4E7E9] rounded-[3px] bg-[#ffffff]">
         <AuthTab activeAuth={activeAuth} setActiveAuth={setActiveAuth} />
-        {activeAuth === "signIn" ? <SignIn /> : <SignUp />}
+        {activeAuth === "signIn" ? (
+          <SignIn />
+        ) : (
+          <SignUp setActiveAuth={setActiveAuth} />
+        )}
       </section>
     </AuthWrapper>
   );

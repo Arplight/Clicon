@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import MainButton from "../buttons/main_button/mainButton";
 import Image from "next/image";
 import { GiShoppingCart } from "react-icons/gi";
@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
+import { FadeLoader } from "react-spinners";
 
 interface IProductCard {
   cardTitle: string;
@@ -25,7 +26,7 @@ const ProductCard: FC<IProductCard> = ({
   cardId,
 }) => {
   const formatedPath: string = cardTitle?.replaceAll(" ", "-");
-
+  const [imageIsLoading, setImageIsLoading] = useState<boolean>(true);
   return (
     <div
       className="flex flex-col gap-1 p-1.5 border-2 border-[#E4E7E9] rounded-[3px] w-[300px] duration-700 hover:shadow-lg overflow-hidden m-auto"
@@ -47,12 +48,22 @@ const ProductCard: FC<IProductCard> = ({
           {cardImages &&
             cardImages.map((image, index) => (
               <SwiperSlide key={index}>
-                <div className="overflow-hidden relative h-[280px]">
+                <div className="overflow-hidden relative h-[280px] flex">
+                  {imageIsLoading && (
+                    <FadeLoader
+                      color="#fa8232"
+                      height={15}
+                      radius={0}
+                      width={5}
+                      cssOverride={{ margin: "auto", zIndex: 100 }}
+                    />
+                  )}
                   <Image
                     src={image}
                     fill
                     alt={cardTitle}
                     className="object-center object-cover"
+                    onLoad={() => setImageIsLoading(false)}
                   />
                 </div>
               </SwiperSlide>
@@ -61,11 +72,13 @@ const ProductCard: FC<IProductCard> = ({
       </Link>
       <div className="flex flex-col gap-0.5">
         <Link href={`products/${formatedPath}-${cardId}`}>
-          <h3 className="">{cardTitle}</h3>
+          <h3 title={cardTitle}>
+            {cardTitle.length > 25 ? cardTitle.slice(0, 25) + "..." : cardTitle}
+          </h3>
         </Link>
-        <p className="small-paragraph">
-          {cardDescription?.length > 75
-            ? cardDescription?.slice(0, 75) + "..."
+        <p className="small-paragraph" title={cardDescription}>
+          {cardDescription?.length > 70
+            ? cardDescription?.slice(0, 70) + "..."
             : cardDescription}
         </p>
         <p className="small-paragraph font-sky font-bold">

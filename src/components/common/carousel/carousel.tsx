@@ -8,23 +8,11 @@ import { FC } from "react";
 import ProductCard from "../product_card/productCard";
 import MainSection from "../main_section/mainSection";
 
-type cardsData = {
-  cardDescription: string;
-  cardTitle: string;
-  cardPrice: number;
-  cardId: number;
-  cardImages: string[];
-};
 interface ICarousel {
-  cardsData: cardsData[];
+  cardsData: Product[] | undefined;
   carouselTitle: string;
 }
 const Carousel: FC<ICarousel> = ({ cardsData, carouselTitle }) => {
-  const images: string[] = [
-    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png",
-    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/2.png",
-    "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/3.png",
-  ];
   return (
     <MainSection withStyle="flex justify-center">
       <div className="container m-auto">
@@ -57,14 +45,14 @@ const Carousel: FC<ICarousel> = ({ cardsData, carouselTitle }) => {
           }}
         >
           {cardsData &&
-            cardsData.map((property, index) => (
-              <SwiperSlide key={index} className="pb-6 pr-[6px]">
+            cardsData.map((card) => (
+              <SwiperSlide key={card.id} className="pb-6 pr-[6px]">
                 <ProductCard
-                  cardDescription="lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-                  cardTitle="AKG K240"
-                  cardPrice={12000}
-                  cardId={12}
-                  cardImages={images}
+                  cardDescription={card.description}
+                  cardTitle={card.title}
+                  cardPrice={card.price}
+                  cardId={card.id}
+                  cardImages={card.images}
                 />
               </SwiperSlide>
             ))}
