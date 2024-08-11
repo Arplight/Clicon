@@ -15,13 +15,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import { RootState } from "@/src/lib/redux/store";
 import { logOut } from "@/src/lib/redux/slices/AuthSlice";
+import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+import { LuHeartOff } from "react-icons/lu";
+import useCart from "@/src/lib/hooks/useCart";
+import useWishlist from "@/src/lib/hooks/useWishlist";
+
 const Navbar = () => {
-  // state
+  // Reading state
   const [currentMenu, setCurrentMenu] = useState<null | string>(null);
   const isAuthorized = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
-
+  const cartList: ICart[] = useSelector((state: RootState) => state.cart.items);
+  const cartTotal: number = useSelector(
+    (state: RootState) => state.cart.totalPrice
+  );
+  const cartQuantity: number = useSelector(
+    (state: RootState) => state.cart.totalQuantity
+  );
+  const favList: IFav[] = useSelector((state: RootState) => state.fav.favList);
   // dispatch
   const dispatch = useDispatch<any>();
   // interfaces
@@ -33,6 +45,9 @@ const Navbar = () => {
     isResponsive: boolean;
     menu?: ReactElement;
   }
+  // handlers
+  const { removingHandler } = useCart();
+  const { favRemovingHandler } = useWishlist();
 
   const navIcons: INavIcons[] = [
     {
@@ -51,16 +66,56 @@ const Navbar = () => {
       label: "Cart",
       isResponsive: false,
       menu: (
-        <NavMenu withStyle="absolute top-[150%] right-[0px] w-max">
+        <NavMenu withStyle="absolute top-[100%] right-[0px] w-full">
           <NavMenu.MenuHeader withStyle="flex gap-1">
             <b className="small-paragraph">Shopping cart</b>
-            <p className="small-paragraph font-gray-600">(1)</p>
+            <p className="small-paragraph font-gray-600">({cartQuantity})</p>
           </NavMenu.MenuHeader>
-          <NavMenu.MenuBody></NavMenu.MenuBody>
+          <NavMenu.MenuBody>
+            {cartList.length > 0 ? (
+              <ul className="flex flex-col gap-2">
+                {cartList &&
+                  cartList.map((item) => (
+                    <li key={item.id} className="flex gap-2 relative">
+                      <button
+                        className="right-0 absolute text-[#fa8232]"
+                        onClick={() => removingHandler(item.id)}
+                      >
+                        <MdOutlineRemoveShoppingCart size={20} />
+                      </button>
+                      <Image
+                        src={item.image}
+                        width={80}
+                        height={60}
+                        alt={item.title}
+                        className="object-center object-contain border border-[#adb7bcd8] "
+                      />
+                      <span className="flex flex-col gap-0.5">
+                        <p className="large-paragraph">{item.title}</p>
+                        <p className="small-paragraph">
+                          {item.description.slice(0, 20)}...
+                        </p>
+                        <p className="small-paragraph font-gray-600">
+                          Quantity: x{item.quantity}
+                        </p>
+                        <p className="large-paragraph font-sky font-bold">
+                          ${item.subtotal?.toFixed(2)}
+                        </p>
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <div className="flex justify-center items-center flex-col gap-1">
+                <MdOutlineRemoveShoppingCart size={40} />
+                <h3>Your cart is empty</h3>
+              </div>
+            )}
+          </NavMenu.MenuBody>
           <NavMenu.MenuFooter withStyle="">
             <div className="flex justify-between">
               <p className="small-paragraph font-gray-600">Total:</p>
-              <b className="small-paragraph">$1231.00</b>
+              <b className="small-paragraph">${cartTotal.toFixed(2)}</b>
             </div>
 
             <MainButton
@@ -86,11 +141,48 @@ const Navbar = () => {
       label: "Wishlist",
       isResponsive: false,
       menu: (
-        <NavMenu withStyle="absolute top-[150%] right-[0px]">
-          <NavMenu.MenuHeader>
+        <NavMenu withStyle="absolute top-[100%] right-[0px] w-full">
+          <NavMenu.MenuHeader withStyle="flex">
             <b className="small-paragraph">Wishlist</b>
           </NavMenu.MenuHeader>
-          <NavMenu.MenuBody></NavMenu.MenuBody>
+          <NavMenu.MenuBody>
+            {favList.length > 0 ? (
+              <ul className="flex flex-col gap-2">
+                {favList &&
+                  favList.map((item) => (
+                    <li key={item.id} className="flex gap-2 relative">
+                      <button
+                        className="right-0 absolute text-[#fa8232]"
+                        onClick={() => favRemovingHandler(item.id)}
+                      >
+                        <LuHeartOff size={20} />
+                      </button>
+                      <Image
+                        src={item.image}
+                        width={80}
+                        height={60}
+                        alt={item.title}
+                        className="object-center object-contain border border-[#adb7bcd8] "
+                      />
+                      <span className="flex flex-col gap-0.5">
+                        <p className="large-paragraph">{item.title}</p>
+                        <p className="small-paragraph">
+                          {item.description.slice(0, 20)}...
+                        </p>
+                        <p className="large-paragraph font-sky font-bold">
+                          ${item.price?.toFixed(2)}
+                        </p>
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <div className="flex justify-center items-center flex-col gap-1">
+                <LuHeartOff size={40} />
+                <h3>Your wishlist is empty</h3>
+              </div>
+            )}
+          </NavMenu.MenuBody>
         </NavMenu>
       ),
     },
@@ -120,11 +212,11 @@ const Navbar = () => {
 
         <SearchBar withStyle="hidden sm:flex" />
         <span>
-          <ul className="flex gap-2 xl:gap-4 items-center leading-[0px]">
+          <ul className="flex gap-2 xl:gap-4 items-center">
             {navIcons.map((icon, index) => (
               <li
                 key={index}
-                className={`relative ${icon.isResponsive && "block sm:hidden"}`}
+                className={` ${icon.isResponsive && "block sm:hidden"}`}
               >
                 {icon.href ? (
                   <Link

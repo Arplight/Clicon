@@ -1,13 +1,7 @@
 import ProductCard from "@/src/components/common/product_card/productCard";
 import Pagination from "./pagination";
 
-const Grid = ({
-  productsData,
-  currentPage,
-}: {
-  productsData: IProducts;
-  currentPage: number;
-}) => {
+const Grid = ({ productsData }: { productsData: IProducts }) => {
   return (
     <span className="w-full xl:w-5/6 p-1 flex flex-col">
       <ul className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-1">
@@ -24,7 +18,7 @@ const Grid = ({
             </li>
           ))}
       </ul>
-      <Pagination currentPage={currentPage} productsData = {productsData}/>
+      <Pagination productsData={productsData} />
     </span>
   );
 };

@@ -1,27 +1,34 @@
 "use client";
-import { FC, useState } from "react";
-// import MultiRangeSlider from "multi-range-slider-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
-interface IFilter {
-  categoriesData: string[];
-}
-// interface IPrice {
-//   minValue: number;
-//   maxValue: number;
-// }
-const Filter: FC<IFilter> = ({ categoriesData }) => {
-  const [currentCategory, setCurrentCategory] = useState<null | string>(null);
-  // const [minValue, set_minValue] = useState<number>(25);
-  // const [maxValue, set_maxValue] = useState<number>(75);
-
+const Filter = ({ categoriesData }: { categoriesData: string[] }) => {
+  const router = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const selectedCategory: string | null = searchParams.get("category");
+  const [currentCategory, setCurrentCategory] = useState<null | string>(
+    selectedCategory
+  );
+  // state syncing with params
+  useEffect(() => {
+    setCurrentCategory(selectedCategory || null);
+  }, [selectedCategory]);
   // Handlers
+  const categoryUrlHandler = (category: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("query");
+    params.set("category", category || "");
+    params.set("page", "0");
+
+    const newURL = `${pathName}?${params.toString()}`;
+    router.push(newURL);
+  };
+
   function categoryHandler(category: string): void {
     setCurrentCategory(category);
+    categoryUrlHandler(category);
   }
-  // const inputHandler = (values: IPrice) => {
-  //   set_minValue(values.minValue);
-  //   set_maxValue(values.maxValue);
-  // };
 
   return (
     <aside className="w-full sm:w-4/5 m-auto xl:m-0 xl:w-1/6 p-2 bg-[#ffffff] shadow-lg rounded-md h-min">
@@ -37,7 +44,12 @@ const Filter: FC<IFilter> = ({ categoriesData }) => {
               }`}
               onClick={() => void categoryHandler(category)}
             >
-              <input type="radio" name="category" id={`category-${index}`} />
+              <input
+                type="radio"
+                name="category"
+                id={`category-${index}`}
+                checked={category === currentCategory}
+              />
               <label className="font-gray-700" htmlFor={`category-${index}`}>
                 {category}
               </label>
@@ -53,32 +65,6 @@ const Filter: FC<IFilter> = ({ categoriesData }) => {
             <option key={index}>{category}</option>
           ))}
       </select>
-      {/* <div className="mt-2">
-        <h3>Price range</h3>
-        <MultiRangeSlider
-          min={0}
-          max={100}
-          step={5}
-          minValue={minValue}
-          maxValue={maxValue}
-          label="true"
-          ruler="false"
-          barLeftColor="#ffffff"
-          barRightColor="#ffffff"
-          barInnerColor=" #1b6392"
-          thumbLeftColor="#ffffff"
-          thumbRightColor="#ffffff"
-          style={{
-            border: "none",
-            boxShadow: "none",
-            padding: "15px 0px",
-            fontSize: 16,
-          }}
-          onInput={(e: IPrice) => {
-            inputHandler({ minValue: e.minValue, maxValue: e.maxValue });
-          }}
-        />
-      </div> */}
     </aside>
   );
 };

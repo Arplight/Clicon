@@ -26,6 +26,8 @@ const ProductDetails = async ({
           summaryRate={productData?.rating}
           summarySku={productData?.sku}
           summaryTitle={productData?.title}
+          summaryId={productData?.id}
+          summaryImage={productData?.images[0]}
         />
       </MainSection>
     </Wrapper>

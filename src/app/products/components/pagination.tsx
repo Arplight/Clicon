@@ -1,21 +1,13 @@
 "use client";
-
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { FC, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
-interface PaginationProps {
-  currentPage: number;
-}
-interface IPagination {
-  currentPage: number;
-  productsData: IProducts;
-}
-const Pagination: FC<IPagination> = ({ currentPage, productsData }) => {
+const Pagination = ({ productsData }: { productsData: IProducts }) => {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
-
+  const currentPage: string | null = searchParams.get("page");
+  
   // URL handler
   const paginatedUrlHandler = (selectedPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -36,7 +28,7 @@ const Pagination: FC<IPagination> = ({ currentPage, productsData }) => {
       <ReactPaginate
         previousLabel={"<"}
         breakLabel="..."
-        pageRangeDisplayed={10}
+        pageRangeDisplayed={8}
         marginPagesDisplayed={0}
         nextLabel={">"}
         pageCount={Math.ceil(productsData.total / 12)}
@@ -48,7 +40,7 @@ const Pagination: FC<IPagination> = ({ currentPage, productsData }) => {
         activeClassName={"pagination-active"}
         pageLinkClassName={"pagination-link"}
         pageClassName={"pagination-page"}
-        forcePage={currentPage}
+        forcePage={Number(currentPage || 0)}
       />
     </div>
   );

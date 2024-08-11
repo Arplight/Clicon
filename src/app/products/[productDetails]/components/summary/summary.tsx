@@ -1,10 +1,12 @@
+"use client";
 import MainButton from "@/src/components/common/buttons/main_button/mainButton";
 import QuantityButton from "@/src/components/common/buttons/quantity_button/quantityButton";
 import { GiShoppingCart } from "react-icons/gi";
 import { IoMdHeartEmpty } from "react-icons/io";
-
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { IoStar } from "react-icons/io5";
+import useCart from "@/src/lib/hooks/useCart";
+import useWishlist from "@/src/lib/hooks/useWishlist";
 
 interface ISummary {
   summaryRate: number;
@@ -16,6 +18,8 @@ interface ISummary {
   summaryAvailability: number;
   summaryPrice: number;
   summaryDiscountPercentage: number;
+  summaryId: number;
+  summaryImage: string;
 }
 const Summary: FC<ISummary> = ({
   summaryRate,
@@ -27,9 +31,32 @@ const Summary: FC<ISummary> = ({
   summaryAvailability,
   summaryPrice,
   summaryDiscountPercentage,
+  summaryId,
+  summaryImage,
 }) => {
-  const discountPrice: number =
-    summaryPrice * (1 - summaryDiscountPercentage / 100);
+  // State
+  const [currentQuantity, setCurrentQuantity] = useState<number>(1);
+
+  // Handlers
+  const { addingHandler, isAddedToCart, updatingHandler } = useCart({
+    itemTitle: summaryTitle,
+    itemDescription: summaryDescription,
+    itemPrice: summaryPrice,
+    itemImage: summaryImage,
+    itemId: summaryId,
+    itemQuantity: currentQuantity,
+  });
+  const { favAddingHandler, isFavourited } = useWishlist({
+    itemId: summaryId,
+    itemTitle: summaryTitle,
+    itemDescription: summaryDescription,
+    itemPrice: summaryPrice,
+    itemImage: summaryImage,
+  });
+  useEffect(() => {
+    updatingHandler();
+  }, [currentQuantity]);
+
   return (
     <span className="w-ful md:w-1/2">
       <ul className="flex flex-col gap-2 border-b border-[#E4E7E9] pb-1.5">
@@ -77,12 +104,7 @@ const Summary: FC<ISummary> = ({
           <p className="small-paragraph font-gray-600">{summaryDescription}</p>
         </li>
         <li key={"price"} className="flex gap-1 items-center">
-          <h2 className="font-sky">
-            ${Number(discountPrice).toFixed(2).toLocaleString()}
-          </h2>
-          <p className="large-paragraph font-gray-600 line-through">
-            ${summaryPrice}
-          </p>
+          <h2 className="font-sky">${summaryPrice}</h2>
           <span className="p-0.5 rounded-sm bg-[#EFD33D]">
             <p className="small-paragraph font-bold">
               {summaryDiscountPercentage}% OFF
@@ -92,20 +114,33 @@ const Summary: FC<ISummary> = ({
       </ul>
       <ul className="flex flex-col gap-2 mt-2.5">
         <li key={"functionality"} className="flex gap-2 items-center">
-          <QuantityButton />
+          <QuantityButton
+            currentQuantity={currentQuantity}
+            setCurrentQuantity={setCurrentQuantity}
+          />
           <MainButton
-            buttonLabel={"Add to cart"}
+            buttonLabel={isAddedToCart ? "Added to cart" : "Add to cart"}
             buttonRole={"button"}
             isHollow={false}
-            isLarge={false}
+            isLarge={true}
             isLoading={false}
-            isDisabled={false}
+            isDisabled={isAddedToCart}
             buttonIcon={<GiShoppingCart size={20} />}
+            onClick={addingHandler}
           />
         </li>
-        <li key={"fav"} className="flex gap-0.5 font-gray-700 cursor-pointer">
-          <IoMdHeartEmpty size={20} />
-          <p className="small-paragraph">Add to wishlist</p>
+        <li key={"fav"}>
+          <button
+            className="flex gap-0.5 font-gray-700"
+            onClick={favAddingHandler}
+          >
+            <IoMdHeartEmpty size={20} />
+            {isFavourited ? (
+              <p className="small-paragraph">Added to wishlist</p>
+            ) : (
+              <p className="small-paragraph">Add to wishlist</p>
+            )}
+          </button>
         </li>
       </ul>
     </span>

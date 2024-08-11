@@ -14,7 +14,7 @@ const MenuHeader: FC<INavMenu> = ({ children, withStyle = "" }) => {
 };
 
 const MenuBody: FC<INavMenu> = ({ children, withStyle = "" }) => {
-  return <div className={`${withStyle} p-2`}>{children}</div>;
+  return <div className={`${withStyle} p-2 max-h-[300px] overflow-y-scroll`}>{children}</div>;
 };
 
 const MenuFooter: FC<INavMenu> = ({ children, withStyle = "" }) => {

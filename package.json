@@ -12,7 +12,6 @@
     "@reduxjs/toolkit": "^2.2.7",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
-    "multi-range-slider-react": "^2.0.7",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

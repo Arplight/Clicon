@@ -63,3 +63,21 @@ interface IProducts {
   skip: number;
   limit: number;
 }
+// cart
+interface ICart {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  quantity: number;
+  subtotal: number;
+  image: string;
+}
+// favourites
+interface IFav {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+}

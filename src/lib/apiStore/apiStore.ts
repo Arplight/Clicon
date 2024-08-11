@@ -54,26 +54,26 @@ export const signIn_API = createAsyncThunk(
 export async function getAllProducts({
   currentPage,
   searchQuery,
-  category,
+  selectedCategory,
 }: {
   currentPage: number;
   searchQuery?: string;
-  category?: string;
+  selectedCategory?: string;
 }) {
   const skip: number = currentPage * 10;
 
   const url = new URL(`${BASE_URL}products`);
 
-  if (searchQuery) {
-    url.pathname += `/search`;
-    url.searchParams.append("q", searchQuery);
+  if (selectedCategory) {
+    url.pathname = `products/category/${selectedCategory}`;
+    url.searchParams.has("q") && url.searchParams.delete("q");
   }
-  if (category) {
-    url.pathname += `/category/${category}`;
+  if (searchQuery) {
+    url.pathname = `products/search`;
+    url.searchParams.append("q", searchQuery);
   }
   url.searchParams.append("limit", "12");
   url.searchParams.append("skip", skip.toString());
-  // console.log(url);
   try {
     const response = await fetch(url.href, {
       method: "GET",

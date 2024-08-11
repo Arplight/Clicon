@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { FadeLoader } from "react-spinners";
+import useCart from "@/src/lib/hooks/useCart";
 
 interface IProductCard {
   cardTitle: string;
@@ -27,6 +28,15 @@ const ProductCard: FC<IProductCard> = ({
 }) => {
   const formatedPath: string = cardTitle?.replaceAll(" ", "-");
   const [imageIsLoading, setImageIsLoading] = useState<boolean>(true);
+  // cart handler
+  const { addingHandler, isAddedToCart } = useCart({
+    itemTitle: cardTitle,
+    itemDescription: cardDescription,
+    itemPrice: cardPrice,
+    itemImage: cardImages[0],
+    itemId: cardId,
+    itemQuantity: 1,
+  });
   return (
     <div
       className="flex flex-col gap-1 p-1.5 border-2 border-[#E4E7E9] rounded-[3px] w-[300px] duration-700 hover:shadow-lg overflow-hidden m-auto"
@@ -85,14 +95,15 @@ const ProductCard: FC<IProductCard> = ({
           ${cardPrice?.toFixed(2)?.toLocaleString()}
         </p>
         <MainButton
-          buttonLabel={"Add to cart"}
+          buttonLabel={isAddedToCart ? "Added to cart" : "Add to cart"}
           buttonRole={"button"}
           isHollow={false}
           isLarge={true}
           isLoading={false}
-          isDisabled={false}
+          isDisabled={isAddedToCart}
           buttonIcon={<GiShoppingCart size={20} />}
           withStyle="mt-2"
+          onClick={addingHandler}
         />
       </div>
     </div>

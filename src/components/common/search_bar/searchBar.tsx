@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 
 interface ISearchBar {
@@ -9,14 +9,19 @@ interface ISearchBar {
 const SearchBar: FC<ISearchBar> = ({ withStyle }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [queryValue, setQueryValue] = useState<string>(
-    searchParams.get("query") || ""
-  );
+  const currentQuery: string = searchParams.get("query") || "";
+  const [queryValue, setQueryValue] = useState<string>(currentQuery);
+  // state syncing with params
+  useEffect(() => {
+    setQueryValue(currentQuery);
+  }, [currentQuery]);
   // Handlers
   const searchUrlHandler = (query: string) => {
     const params = new URLSearchParams(searchParams);
+    params.delete("category");
     params.set("query", query);
     params.set("page", "0");
+
     const newURL = `/products?${params.toString()}`;
     router.push(newURL);
   };
