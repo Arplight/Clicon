@@ -35,7 +35,6 @@ const ProductCard: FC<IProductCard> = ({
     itemPrice: cardPrice,
     itemImage: cardImages[0],
     itemId: cardId,
-    itemQuantity: 1,
   });
   return (
     <div
@@ -43,20 +42,20 @@ const ProductCard: FC<IProductCard> = ({
       aria-label={cardTitle}
     >
       <Link href={`products/${formatedPath}-${cardId}`}>
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          navigation={true}
-          modules={[Autoplay, Navigation]}
-          className="mySwiper"
-          loop={true}
-        >
-          {cardImages &&
-            cardImages.map((image, index) => (
+        {cardImages && cardImages.length > 1 ? (
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            navigation={true}
+            modules={[Autoplay, Navigation]}
+            className="mySwiper"
+            loop={true}
+          >
+            {cardImages.map((image, index) => (
               <SwiperSlide key={index}>
                 <div className="overflow-hidden relative h-[280px] flex">
                   {imageIsLoading && (
@@ -78,17 +77,37 @@ const ProductCard: FC<IProductCard> = ({
                 </div>
               </SwiperSlide>
             ))}
-        </Swiper>
+          </Swiper>
+        ) : (
+          <div className="overflow-hidden relative h-[280px] flex">
+            {imageIsLoading && (
+              <FadeLoader
+                color="#fa8232"
+                height={15}
+                radius={0}
+                width={5}
+                cssOverride={{ margin: "auto", zIndex: 100 }}
+              />
+            )}
+            <Image
+              src={cardImages[0]}
+              fill
+              alt={cardTitle}
+              className="object-center object-cover"
+              onLoad={() => setImageIsLoading(false)}
+            />
+          </div>
+        )}
       </Link>
       <div className="flex flex-col gap-0.5">
         <Link href={`products/${formatedPath}-${cardId}`}>
           <h3 title={cardTitle}>
-            {cardTitle.length > 25 ? cardTitle.slice(0, 25) + "..." : cardTitle}
+            {cardTitle.length > 23 ? cardTitle.slice(0, 23) + "..." : cardTitle}
           </h3>
         </Link>
         <p className="small-paragraph" title={cardDescription}>
-          {cardDescription?.length > 70
-            ? cardDescription?.slice(0, 70) + "..."
+          {cardDescription?.length > 60
+            ? cardDescription?.slice(0, 60) + "..."
             : cardDescription}
         </p>
         <p className="small-paragraph font-sky font-bold">

@@ -43,7 +43,7 @@ const AuthSlice = createSlice({
     });
     builder.addCase(
       signUp_API.rejected,
-      (state, action: PayloadAction<string>) => {
+      (state, action: PayloadAction<any>) => {
         state.signUpIsError = action.payload;
         state.signUpIsPending = false;
       }
@@ -65,7 +65,7 @@ const AuthSlice = createSlice({
     );
     builder.addCase(
       signIn_API.rejected,
-      (state, action: PayloadAction<string>) => {
+      (state, action: PayloadAction<any>) => {
         state.signInIsError = action.payload;
         state.signInIsPending = false;
       }

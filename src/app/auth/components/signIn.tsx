@@ -47,6 +47,7 @@ const SignIn = () => {
               fieldType={"text"}
               fieldMaxLength={31}
               isRequired={true}
+              autocomplete="username"
             />
             <InputField
               fieldLabel={"Password"}
@@ -55,6 +56,7 @@ const SignIn = () => {
               fieldType={"password"}
               fieldMaxLength={21}
               isRequired={true}
+              autocomplete="current-password"
             />
             <MainButton
               buttonLabel={"sign in"}

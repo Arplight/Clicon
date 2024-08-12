@@ -3,7 +3,7 @@ import MainButton from "@/src/components/common/buttons/main_button/mainButton";
 import QuantityButton from "@/src/components/common/buttons/quantity_button/quantityButton";
 import { GiShoppingCart } from "react-icons/gi";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { IoStar } from "react-icons/io5";
 import useCart from "@/src/lib/hooks/useCart";
 import useWishlist from "@/src/lib/hooks/useWishlist";
@@ -34,18 +34,15 @@ const Summary: FC<ISummary> = ({
   summaryId,
   summaryImage,
 }) => {
-  // State
-  const [currentQuantity, setCurrentQuantity] = useState<number>(1);
-
   // Handlers
-  const { addingHandler, isAddedToCart, updatingHandler } = useCart({
-    itemTitle: summaryTitle,
-    itemDescription: summaryDescription,
-    itemPrice: summaryPrice,
-    itemImage: summaryImage,
-    itemId: summaryId,
-    itemQuantity: currentQuantity,
-  });
+  const { addingHandler, isAddedToCart, currentQuantity, setCurrentQuantity } =
+    useCart({
+      itemTitle: summaryTitle,
+      itemDescription: summaryDescription,
+      itemPrice: summaryPrice,
+      itemImage: summaryImage,
+      itemId: summaryId,
+    });
   const { favAddingHandler, isFavourited } = useWishlist({
     itemId: summaryId,
     itemTitle: summaryTitle,
@@ -53,9 +50,6 @@ const Summary: FC<ISummary> = ({
     itemPrice: summaryPrice,
     itemImage: summaryImage,
   });
-  useEffect(() => {
-    updatingHandler();
-  }, [currentQuantity]);
 
   return (
     <span className="w-ful md:w-1/2">
@@ -113,7 +107,7 @@ const Summary: FC<ISummary> = ({
         </li>
       </ul>
       <ul className="flex flex-col gap-2 mt-2.5">
-        <li key={"functionality"} className="flex gap-2 items-center">
+        <li key={"functionality"} className="flex gap-1 items-center">
           <QuantityButton
             currentQuantity={currentQuantity}
             setCurrentQuantity={setCurrentQuantity}

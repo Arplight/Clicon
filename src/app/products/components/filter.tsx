@@ -42,13 +42,13 @@ const Filter = ({ categoriesData }: { categoriesData: string[] }) => {
                 category === currentCategory &&
                 "text-[#fa8232] border-[#fa8232]"
               }`}
-              onClick={() => void categoryHandler(category)}
             >
               <input
                 type="radio"
                 name="category"
                 id={`category-${index}`}
                 checked={category === currentCategory}
+                onChange={() => void categoryHandler(category)}
               />
               <label className="font-gray-700" htmlFor={`category-${index}`}>
                 {category}
@@ -59,10 +59,13 @@ const Filter = ({ categoriesData }: { categoriesData: string[] }) => {
       <select
         name="categories_list"
         className="block xl:hidden large-paragraph w-full p-0.5"
+        onChange={(e) => void categoryHandler(e.target.value)}
       >
         {categoriesData &&
           categoriesData.map((category, index) => (
-            <option key={index}>{category}</option>
+            <option key={index} value={category}>
+              {category}
+            </option>
           ))}
       </select>
     </aside>

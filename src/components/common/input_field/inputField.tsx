@@ -8,6 +8,7 @@ interface IInputField {
   fieldStyle?: string;
   fieldMaxLength: number;
   isRequired: boolean;
+  autocomplete: string;
 }
 const InputField: FC<IInputField> = ({
   fieldLabel,
@@ -17,6 +18,7 @@ const InputField: FC<IInputField> = ({
   fieldStyle,
   fieldMaxLength,
   isRequired,
+  autocomplete,
 }) => {
   return (
     <fieldset className={`flex flex-col relative ${fieldStyle}`}>
@@ -40,6 +42,7 @@ const InputField: FC<IInputField> = ({
         aria-describedby={`${fieldName}-error`}
         className={"border-2 border-[#E4E7E9] p-1 font-small rounded-[3px]"}
         style={{ fontSize: "14px" }}
+        autoComplete={autocomplete}
       />
       <ErrorMessage
         name={fieldName}

@@ -18,6 +18,7 @@ const Grid = ({ productsData }: { productsData: IProducts }) => {
             </li>
           ))}
       </ul>
+
       <Pagination productsData={productsData} />
     </span>
   );

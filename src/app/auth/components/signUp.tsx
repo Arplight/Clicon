@@ -42,6 +42,7 @@ const SignUp: FC<ISignUpProps> = ({ setActiveAuth }) => {
               fieldType={"text"}
               fieldMaxLength={31}
               isRequired={true}
+              autocomplete="username"
             />
             <InputField
               fieldLabel={"E-mail"}
@@ -50,6 +51,7 @@ const SignUp: FC<ISignUpProps> = ({ setActiveAuth }) => {
               fieldType={"email"}
               fieldMaxLength={51}
               isRequired={true}
+              autocomplete="email"
             />
             <InputField
               fieldLabel={"Password"}
@@ -58,6 +60,7 @@ const SignUp: FC<ISignUpProps> = ({ setActiveAuth }) => {
               fieldType={"password"}
               fieldMaxLength={21}
               isRequired={true}
+              autocomplete="new-password"
             />
             <InputField
               fieldLabel={"Confirm password"}
@@ -66,6 +69,7 @@ const SignUp: FC<ISignUpProps> = ({ setActiveAuth }) => {
               fieldType={"password"}
               fieldMaxLength={21}
               isRequired={true}
+              autocomplete="new-password"
             />
             <MainButton
               buttonLabel={"sign up"}

@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-interface ICart {
-  id: number;
-  title: string;
-  quantity: number;
-  subtotal: number;
-}
-
 interface ICartInit {
   items: ICart[];
   totalQuantity: number;
@@ -16,9 +9,11 @@ interface ICartInit {
 
 // Utilities
 const saveToLocalStorage = (state: ICartInit) => {
-  localStorage.setItem("cartList", JSON.stringify(state.items));
-  localStorage.setItem("cartQuantity", JSON.stringify(state.totalQuantity));
-  localStorage.setItem("cartPrice", JSON.stringify(state.totalPrice));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cartList", JSON.stringify(state.items));
+    localStorage.setItem("cartQuantity", JSON.stringify(state.totalQuantity));
+    localStorage.setItem("cartPrice", JSON.stringify(state.totalPrice));
+  }
 };
 
 const cartUpdater = (state: ICartInit) => {
@@ -26,19 +21,30 @@ const cartUpdater = (state: ICartInit) => {
   state.totalPrice = state.items.reduce((t, i) => t + i.subtotal, 0);
 };
 
+const getInitialState = (): ICartInit => {
+  if (typeof window !== "undefined") {
+    const items = localStorage.getItem("cartList");
+    const quantity = localStorage.getItem("cartQuantity");
+    const price = localStorage.getItem("cartPrice");
+
+    return {
+      items: items ? JSON.parse(items) : [],
+      totalQuantity: quantity ? JSON.parse(quantity) : 0,
+      totalPrice: price ? JSON.parse(price) : 0,
+    };
+  }
+
+  // Return default values for server-side rendering
+  return {
+    items: [],
+    totalQuantity: 0,
+    totalPrice: 0,
+  };
+};
+
 const CartSlice = createSlice({
   name: "cart",
-  initialState: <ICartInit>{
-    items: localStorage.getItem("cartList")
-      ? JSON.parse(localStorage.getItem("cartList") || "[]")
-      : [],
-    totalQuantity: localStorage.getItem("cartQuantity")
-      ? JSON.parse(localStorage.getItem("cartQuantity") || "0")
-      : 0,
-    totalPrice: localStorage.getItem("cartPrice")
-      ? JSON.parse(localStorage.getItem("cartPrice") || "0")
-      : 0,
-  },
+  initialState: getInitialState(),
   reducers: {
     addToCart: (state, action: PayloadAction<ICart>) => {
       const newItem: ICart = action.payload;

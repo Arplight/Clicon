@@ -20,11 +20,19 @@ const QuantityButton: FC<IQuantityButtonProps<number>> = ({
 
   return (
     <div className="flex gap-3 rounded-[3px] large-paragraph py-1.5 px-2.5 border-2 border-[#E4E7E9] w-min">
-      <button onClick={() => handleQuantityChange("decrease")}>
+      <button
+        onClick={() => {
+          handleQuantityChange("decrease");
+        }}
+      >
         <LuMinus />
       </button>
       <span className="font-gray-700">{currentQuantity}</span>
-      <button onClick={() => handleQuantityChange("increase")}>
+      <button
+        onClick={() => {
+          handleQuantityChange("increase");
+        }}
+      >
         <LuPlus />
       </button>
     </div>
