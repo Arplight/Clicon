@@ -69,6 +69,7 @@ const ProductCard: FC<IProductCard> = ({
                   )}
                   <Image
                     src={image}
+                    priority
                     fill
                     alt={cardTitle}
                     className="object-center object-cover"

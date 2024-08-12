@@ -43,6 +43,8 @@ const SearchBar: FC<ISearchBar> = ({ withStyle }) => {
       />
       <button
         type="submit"
+        role="button"
+        aria-label="search-bar"
         onClick={(e) => {
           e.preventDefault();
           searchUrlHandler(queryValue);
